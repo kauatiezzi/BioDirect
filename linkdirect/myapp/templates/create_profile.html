@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Criar Perfil</title>
+  </head>
+  <body>
+    <h1>Criar Perfil</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Salvar Perfil</button>
+    </form>
+  </body>
+</html>

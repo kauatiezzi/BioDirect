@@ -1,0 +1,408 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BioDirect - Seus links em um único lugar.</title>
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'images/favicon.png' %}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'assets/apple-touch-icon.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'assets/favicon-32x32.png' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'assets/favicon-16x16.png' %}"
+    />
+    <link rel="manifest" href="{% static 'assets/site.webmanifest' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          screens: {
+            sm: "640px",
+            // => @media (min-width: 640px) { ... }
+
+            md: "768px",
+            // => @media (min-width: 768px) { ... }
+
+            lg: "1024px",
+            // => @media (min-width: 1024px) { ... }
+
+            xl: "1280px",
+            // => @media (min-width: 1280px) { ... }
+
+            "2xl": "1536px",
+            // => @media (min-width: 1536px) { ... }
+          },
+          fontFamily: {
+            sans: ["Poppins", "system-ui"],
+            serif: ["ui-serif", "Georgia"],
+            mono: ["ui-monospace", "SFMono-Regular"],
+          },
+          extend: {
+            colors: {
+              principal: "#495ECA",
+              cinza: "#767B99",
+              sec: "#8F9EE4",
+              terc: "#272D4D",
+              quarta: "#F2F0FE",
+              amarelo: "#FFA45A",
+            },
+          },
+        },
+      }
+    </script>
+  </head>
+
+  <body>
+    <nav class="bg-principal border-gray-200">
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+      >
+        <a href="{% url 'home' %}" class="flex items-center">
+          <img class="w-40" src="{% static 'assets/logo.png' %}" alt="" />
+        </a>
+        <button
+          data-collapse-toggle="navbar-default"
+          type="button"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none"
+          aria-controls="navbar-default"
+          aria-expanded="false"
+        >
+          <svg
+            class="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15"
+            />
+          </svg>
+        </button>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+          <ul
+            class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0"
+          >
+            <li>
+              <div class="flex items-center space-x-2">
+                {% if username %}
+                <a
+                  href="{% url 'edit_profile' username %}"
+                  class="text-white font-bold uppercase transition duration-500 ease-in-out transform hover:scale-105 hover:text-terc hover:bg-opacity-75"
+                  >Editar perfil</a
+                >
+                {% else %}
+                <a
+                  href="{% url 'login' %}?next={% url 'edit_profile' 'temporary-username' %}"
+                  class="text-white font-bold uppercase transition duration-500 ease-in-out transform hover:scale-105 hover:text-terc hover:bg-opacity-75"
+                  >LOGIN</a
+                >
+                {% endif %}
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section>
+      <div
+        name="home"
+        class="w-full h-screen bg-principal flex flex-col justify-between"
+      >
+        <div class="grid md:grid-cols-2 max-w-[1240px] mx-auto mt-32">
+          <div
+            class="flex flex-col justify-center md:items-start w-full px-2 py-8"
+          >
+            <h1
+              class="py-3 text-4xl md:text-7xl font-bold text-white text-pretty"
+            >
+              Seus Links em um único lugar
+            </h1>
+            <p class="text-lg text-white mt-12 text-balance">
+              Organize todos os seus links favoritos e compartilhe com seu
+              público de forma prática e rápida. Com nossa ferramenta, você pode
+              criar uma única página com todos os seus links importantes,
+              facilitando o acesso e a navegação para todos.
+            </p>
+          </div>
+          <div class="hidden md:block">
+            <img
+              class="w-112 ml-48 mb-0"
+              src="{% static 'assets/mockups.png' %}"
+              alt="/"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="my-12">
+      <div name="platforms" class="w-full">
+        <div class="max-w-[1240px] mx-auto px-2">
+          <div>
+            <p class="text-xl py-2 text-principal mt-24">
+              Para você ou sua empresa
+            </p>
+            <h2 class="text-3xl font-bold text-terc">
+              Recursos exclusivos e personalizados
+            </h2>
+          </div>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 mt-12">
+            <div class="flex">
+              <div class="ml-4">
+                <div class="mb-4 ml-4">
+                  <img class="" src="{% static 'assets/att.svg' %}" alt="" />
+                </div>
+                <h3 class="font-semibold text-2xl text-terc">
+                  Customize cores e layout
+                </h3>
+                <p class="text-lg pt-2 pb-4 text-cinza mt-4">
+                  Personalize o visual da sua página com suas cores e logos que
+                  remetam a você
+                </p>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="ml-4">
+                <div class="mb-4 ml-4">
+                  <img class="" src="{% static 'assets/url.svg' %}" alt="" />
+                </div>
+                <h3 class="font-semibold text-2xl text-terc">
+                  URL com seu nome
+                </h3>
+                <p class="text-lg pt-2 pb-4 text-cinza mt-4">
+                  Crie o final da URL de sua página com o seu nome ou de sua
+                  marca.
+                </p>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="ml-4">
+                <div class="mb-4 ml-4">
+                  <img class="" src="{% static 'assets/check.svg' %}" alt="" />
+                </div>
+                <h3 class="font-semibold text-2xl text-terc">
+                  Selo de verificação
+                </h3>
+                <p class="text-lg pt-2 pb-4 text-cinza mt-4">
+                  Um certificado exclusivo e online para garantir a
+                  autenticidade da sua conta/marca.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="">
+      <div name="platforms" class="w-full">
+        <div class="max-w-[1240px] mx-auto px-2">
+          <div>
+            <p class="text-xl py-2 text-principal mt-24">
+              Tudo que você precisa
+            </p>
+            <h2 class="text-3xl font-bold text-terc">
+              Os recursos necessários pra você alcançar seu público
+            </h2>
+          </div>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 mt-12">
+            <div class="inline-flex items-center rounded-lg bg-quarta p-2">
+              <div class="">
+                <img
+                  class="mr-3 text-green-600"
+                  src="{% static 'assets/checkCircle.svg' %}"
+                  alt=""
+                />
+              </div>
+              <div class="ml-4">
+                <h3 class="text-sm text-cinza">
+                  Cadastre quantos links quiser, sem limites.
+                </h3>
+              </div>
+            </div>
+            <div class="inline-flex items-center rounded-lg bg-quarta p-2">
+              <div class="">
+                <img
+                  class="mr-3 text-green-600"
+                  src="{% static 'assets/checkCircle.svg' %}"
+                  alt=""
+                />
+              </div>
+              <div class="ml-4">
+                <h3 class="text-sm text-cinza">
+                  Todas as suas redes sociais em um só lugar
+                </h3>
+              </div>
+            </div>
+            <div class="inline-flex items-center rounded-lg bg-quarta p-2">
+              <div class="">
+                <img
+                  class="mr-3 text-green-600"
+                  src="{% static 'assets/checkCircle.svg' %}"
+                  alt=""
+                />
+              </div>
+              <div class="ml-4">
+                <h3 class="text-sm text-cinza">
+                  Customize sua página com sua paleta de cores
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div class="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 pt-4 mt-4">
+            <div class="inline-flex items-center rounded-lg bg-quarta p-2">
+              <div>
+                <img
+                  class="mr-2 text-green-600"
+                  src="{% static 'assets/checkCircle.svg' %}"
+                  alt=""
+                />
+              </div>
+              <div>
+                <h3 class="text-sm text-cinza">
+                  Selo de verificação para garantir autenticidade.
+                </h3>
+              </div>
+            </div>
+            <div class="inline-flex items-center rounded-lg bg-quarta p-2">
+              <div>
+                <img
+                  class="mr-2 text-green-600"
+                  src="{% static 'assets/checkCircle.svg' %}"
+                  alt=""
+                />
+              </div>
+              <div>
+                <h3 class="text-sm text-cinza">
+                  Url personalizada com seu nome ou da sua marca.
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-0">
+      <div name="pricing" class="max-w-[1240px] mx-auto px-2">
+        <div
+          class="max-w-[1240px] mx-auto py-12 flex flex-col md:flex-row items-center"
+        >
+          <div class="py-8 text-slate-300 md:w-7/12 mt">
+            <p class="text-xl py-2 text-terc mt-24">Não perca tempo</p>
+            <h3 class="text-5xl font-bold text-principal leading-relaxed">
+              Entre em contato e faça parte desse lançamento incrível.
+            </h3>
+            <a
+              href="#"
+              class="inline-flex items-center px-6 py-3 mt-8 border border-transparent text-base font-medium rounded-md text-white bg-principal hover:bg-terc focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-500 ease-in-out"
+            >
+              Inscreva-se
+            </a>
+          </div>
+          <div
+            class="py-8 text-slate-300 md:w-5/12 flex flex-col items-center mt-24"
+          >
+            <img
+              src="{% static 'assets/icon.svg' %}"
+              class="mr-2 text-green-600"
+              alt=""
+            />
+            <p class="text-sm text-terc mt-4">
+              Selo de verificação e confiabilidade.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-principal py-8 text-white">
+      <div
+        class="max-w-[1240px] mx-auto flex items-center justify-between px-4"
+      >
+        <!-- Logo no lado esquerdo em cima -->
+        <div class="flex items-center mb-4 md:mb-0 md:order-1">
+          <img src="{% static 'assets/logo.png' %}" alt="Logo" class="h-24" />
+        </div>
+
+        <!-- Abas: documentacao, preço, funcionalidades -->
+        <nav
+          class="flex flex-wrap gap-6 mb-4 md:mb-0 md:order-3 md:ml-auto text-terc"
+        >
+          <a href="#" class="text-sm hover:text-gray-300">Documentação</a>
+          <a href="#" class="text-sm hover:text-gray-300">Preço</a>
+          <a href="#" class="text-sm hover:text-gray-300">Funcionalidades</a>
+        </nav>
+      </div>
+
+      <div
+        class="max-w-[1240px] mx-auto flex items-center justify-between px-4"
+      >
+        <!-- Texto de direitos reservados -->
+        <div
+          class="flex items-center mb-4 md:mb-0 md:order-1 text-xs text-terc"
+        >
+          <p>
+            Todos os direitos reservados. Veja nossa Política de privacidade e
+            Termos de Uso
+          </p>
+        </div>
+
+        <!-- Redes sociais -->
+        <nav class="flex gap-4 md:order-3 md:ml-auto">
+          <a href="#"
+            ><img src="{% static 'assets/whatsapp2.svg' %}" alt=""
+          /></a>
+          <a href="#"
+            ><img src="{% static 'assets/instagram2.svg' %}" alt=""
+          /></a>
+          <a href="#"
+            ><img src="{% static 'assets/linkedin2.svg' %}" alt=""
+          /></a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+  </body>
+</html>
